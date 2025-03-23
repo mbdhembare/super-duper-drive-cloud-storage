@@ -38,4 +38,8 @@ public class FileService {
     public boolean isFilenameAvailable(String filename, Integer userId) {
         return fileMapper.getFileByNameAndUserId(filename, userId) == null;
     }
+
+    public File getFileById(Integer fileId) {
+        return fileMapper.getFileById(fileId);
+    }
 }

@@ -12,6 +12,9 @@
 <div class="container justify-content-center w-25 p-3" style="background-color: #eeeeee; margin-top: 5em;">
     <h1 class="display-5">Login</h1>
 
+    <!-- Success Message -->
+    <div th:if="${successMessage}" class="alert alert-success" id="success-msg" th:text="${successMessage}"></div>
+
     <!-- Error Message for Invalid Login -->
     <div th:if="${param.error}" class="alert alert-danger">
         Invalid username or password.

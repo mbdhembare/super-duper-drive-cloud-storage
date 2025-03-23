@@ -49,7 +49,8 @@ public class SignupController {
 
         if (errorMessage == null) {
             // Redirect to login page with success message
-            redirectAttributes.addFlashAttribute("successMessage", "You successfully signed up! Please log in.");
+//            redirectAttributes.addFlashAttribute("successMessage", "You successfully signed up! Please log in.");
+            model.addAttribute("successMessage", "You successfully signed up!");
             return "redirect:/login";
         } else {
             // Show error message on the signup page

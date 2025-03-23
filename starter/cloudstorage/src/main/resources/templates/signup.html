@@ -17,7 +17,7 @@
     <h1 class="display-5">Sign Up</h1>
     <form th:action="@{/signup}" th:object="${user}" method="post">
         <!-- Success Message -->
-        <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+        <div th:if="${successMessage}" class="alert alert-success" id="success-msg" th:text="${successMessage}"></div>
 
         <!-- Error Message -->
         <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>

@@ -49,14 +49,12 @@ class CloudStorageApplicationTests {
 	 * PLEASE DO NOT DELETE THIS method.
 	 * Helper method for Udacity-supplied sanity checks.
 	 **/
-	private void doMockSignUp(String firstName, String lastName, String userName, String password){
-		// Create a dummy account for logging in later.
-
+	private void doMockSignUp(String firstName, String lastName, String userName, String password) {
 		// Visit the sign-up page.
 		WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(2));
 		driver.get("http://localhost:" + this.port + "/signup");
 		webDriverWait.until(ExpectedConditions.titleContains("Sign Up"));
-		
+
 		// Fill out credentials
 		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("inputFirstName")));
 		WebElement inputFirstName = driver.findElement(By.id("inputFirstName"));
@@ -83,11 +81,16 @@ class CloudStorageApplicationTests {
 		WebElement buttonSignUp = driver.findElement(By.id("buttonSignUp"));
 		buttonSignUp.click();
 
-		/* Check that the sign up was successful. 
-		// You may have to modify the element "success-msg" and the sign-up 
-		// success message below depening on the rest of your code.
-		*/
-		Assertions.assertTrue(driver.findElement(By.id("success-msg")).getText().contains("You successfully signed up!"));
+		// Wait for the success message to appear
+		try {
+			webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("success-msg")));
+			WebElement successMsg = driver.findElement(By.id("success-msg"));
+			Assertions.assertTrue(successMsg.getText().contains("You successfully signed up!"));
+		} catch (org.openqa.selenium.TimeoutException e) {
+			System.out.println("Success message not found after sign-up.");
+			// Optionally, you can fail the test here or log the error.
+			Assertions.fail("Success message not found after sign-up.");
+		}
 	}
 
 	
@@ -134,9 +137,13 @@ class CloudStorageApplicationTests {
 	@Test
 	public void testRedirection() {
 		// Create a test account
-		doMockSignUp("Redirection","Test","RT","123");
-		
-		// Check if we have been redirected to the log in page.
+		doMockSignUp("Redirection", "Test", "RT", "123");
+
+		// Wait for the success message to appear
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		WebElement successMsg = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("success-msg")));
+
+		// Check if we have been redirected to the log in page
 		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
 

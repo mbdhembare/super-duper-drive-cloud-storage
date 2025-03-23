@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -60,10 +61,22 @@ public class FileController {
         return "redirect:/home";
     }
 
+    @GetMapping("/view/{fileId}")
+    public void viewFile(@PathVariable Integer fileId, HttpServletResponse response) throws IOException {
+        File file = fileService.getFileById(fileId);
+        if (file != null) {
+            response.setContentType(file.getContenttype());
+            response.setHeader("Content-Disposition", "inline; filename=\"" + file.getFilename() + "\"");
+            response.getOutputStream().write(file.getFiledata());
+        } else {
+            response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
+
     @GetMapping("/delete/{fileId}")
-    public String deleteFile(@PathVariable Integer fileId, Model model) {
+    public String deleteFile(@PathVariable Integer fileId, RedirectAttributes redirectAttributes) {
         fileService.deleteFile(fileId);
-        model.addAttribute("successMessage", "File deleted successfully.");
+        redirectAttributes.addFlashAttribute("successMessage", "File deleted successfully.");
         return "redirect:/home";
     }
 }

@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS NOTES (
 );
 
 CREATE TABLE IF NOT EXISTS FILES (
-    fileId serial PRIMARY KEY,
+    fileid serial PRIMARY KEY,
     filename VARCHAR,
     contenttype VARCHAR,
     filesize VARCHAR,
