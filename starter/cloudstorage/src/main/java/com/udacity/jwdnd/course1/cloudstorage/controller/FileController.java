@@ -38,7 +38,7 @@ public class FileController {
         String errorMessage = null;
 
         if (file.isEmpty()) {
-            errorMessage = "Please select a file to upload.";
+            errorMessage = "Empty file! Please select a file to upload.";
         }
 
         if (errorMessage == null && !fileService.isFilenameAvailable(file.getOriginalFilename(), userId)) {

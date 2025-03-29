@@ -21,7 +21,7 @@ public class NoteController {
         this.userService = userService;
     }
 
-    @PostMapping
+    @PostMapping("/addOrUpdate")
     public String addOrUpdateNote(@ModelAttribute Note note, Authentication authentication, RedirectAttributes redirectAttributes) {
         Integer userId = userService.getUserId(authentication.getName());
         note.setUserid(userId);
@@ -57,10 +57,10 @@ public class NoteController {
         return "redirect:/home";
     }
 
-    @GetMapping("/edit/{noteId}")
-    public String editNote(@PathVariable Integer noteId, Model model) {
-        Note note = noteService.getNoteById(noteId);
-        model.addAttribute("note", note);
-        return "home"; // Return to the home page with the note form populated
+    @PostMapping("/update")
+    public String updateNote(@RequestParam Integer noteId, @RequestParam String title, @RequestParam String description) {
+        Note note = new Note(noteId, title, description);
+        noteService.updateNote(note);
+        return "redirect:/home";
     }
 }

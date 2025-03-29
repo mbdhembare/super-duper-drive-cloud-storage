@@ -15,6 +15,12 @@ public class Note {
 
     public Note() {}
 
+    public Note(Integer noteId, String noteTitle, String noteDescription) {
+        this.noteid = noteId;
+        this.notetitle = noteTitle;
+        this.notedescription = noteDescription;
+    }
+
     public Integer getNoteid() {
         return noteid;
     }
